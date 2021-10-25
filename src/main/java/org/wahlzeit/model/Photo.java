@@ -60,6 +60,8 @@ public class Photo extends DataObject {
 	protected EmailAddress ownerEmailAddress = EmailAddress.EMPTY;
 	protected Language ownerLanguage = Language.ENGLISH;
 	protected URL ownerHomePage;
+
+	protected Location location;
 	
 	/**
 	 * 
