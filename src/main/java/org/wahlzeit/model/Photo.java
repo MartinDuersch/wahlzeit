@@ -187,6 +187,14 @@ public class Photo extends DataObject {
 	public PhotoId getId() {
 		return id;
 	}
+
+	/**
+	 * 
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return location;
+	}
 	
 	/**
 	 * 
