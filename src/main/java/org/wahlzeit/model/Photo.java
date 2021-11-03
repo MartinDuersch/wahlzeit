@@ -62,6 +62,7 @@ public class Photo extends DataObject {
 	protected URL ownerHomePage;
 
 	protected Location location;
+	protected int locationId;
 	
 	/**
 	 * 
@@ -170,7 +171,8 @@ public class Photo extends DataObject {
 		rset.updateInt("status", status.asInt());
 		rset.updateInt("praise_sum", praiseSum);
 		rset.updateInt("no_votes", noVotes);
-		rset.updateLong("creation_time", creationTime);		
+		rset.updateLong("creation_time", creationTime);
+		rset.updateInt("location_id", locationId);	
 	}
 
 	/**
@@ -178,6 +180,32 @@ public class Photo extends DataObject {
 	 */
 	public void writeId(PreparedStatement stmt, int pos) throws SQLException {
 		stmt.setInt(pos, id.asInt());
+	}
+
+	/**
+	 * 
+	 * @methodtype get
+	 */
+	public int getLocationId() {
+		return locationId;
+	}
+
+		/**
+	 * 
+	 * @methodtype get
+	 */
+	public void setLocationId(int locationId) {
+		this.locationId = locationId;
+		incWriteCount();
+	}
+
+			/**
+	 * 
+	 * @methodtype get
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
+		incWriteCount();
 	}
 	
 	/**

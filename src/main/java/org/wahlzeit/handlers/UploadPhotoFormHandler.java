@@ -46,8 +46,11 @@ public class UploadPhotoFormHandler extends AbstractWebFormHandler {
 			return PartUtil.UPLOAD_PHOTO_PAGE_NAME;
 		}
 
-		try {
+		try {	
+			CoordinateManager cm = CoordinateManager.getInstance();
+			LocationManager lm = LocationManager.getInstance();
 			PhotoManager pm = PhotoManager.getInstance();
+
 			String sourceFileName = us.getAsString(args, "fileName");
 			File file = new File(sourceFileName);
 			Photo photo = pm.createPhoto(file);
@@ -60,6 +63,20 @@ public class UploadPhotoFormHandler extends AbstractWebFormHandler {
 			
 			photo.setTags(new Tags(tags));
 
+			//TODO: Check whether File/Photo has Location/Coordinate Data
+			if (true) {
+				//TODO: Extract Location/Coordinate data from file
+				Coordinate coordinate = cm.createCoordinate(1.0, 1.0, 1.0);
+				cm.saveCoordinate(coordinate);
+
+				Location location = lm.createLocation(coordinate);
+				location.setCoordinate(coordinate);
+				location.setCoordinateId(coordinate.getId());
+				lm.saveLocation(location);
+				
+				photo.setLocationId(location.getId());
+				photo.setLocation(location);
+			}
 			pm.savePhoto(photo);
 
 			StringBuffer sb = UserLog.createActionEntry("UploadPhoto");
