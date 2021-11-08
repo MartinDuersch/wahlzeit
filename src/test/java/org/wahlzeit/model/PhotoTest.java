@@ -23,6 +23,7 @@ public class PhotoTest {
                 assertFalse(photo2.isWiderThanHigher());
 	}
 
+        
         @Test
 	public void testGetThumbWidth() {
 		Photo photo1 = new Photo();
