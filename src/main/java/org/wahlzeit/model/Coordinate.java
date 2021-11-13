@@ -1,10 +1,12 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.services.DataObject;
+import java.util.Objects;
 import java.sql.*;
 
 public class Coordinate extends DataObject{
 
+    private final static double EPSILON = 1e-6;
     /**
 	 * 0 is never returned from nextValue; first value is 1
 	 */
@@ -43,17 +45,30 @@ public class Coordinate extends DataObject{
     public boolean isEqual(Coordinate coordinate) {
         if (coordinate instanceof Coordinate == false) {
             return false;
-        } else {
-            return (this.getX() == coordinate.getX() &&
-                    this.getY() == coordinate.getY() &&
-                    this.getZ() == coordinate.getZ());
         }
+        if (this == coordinate) {
+            return true;
+        }
+        return (checkEqualDoubles(this.getX(), coordinate.getX()) &&
+                checkEqualDoubles(this.getY(), coordinate.getY()) &&
+                checkEqualDoubles(this.getZ(), coordinate.getZ()));
+    }
+    
+
+    private static boolean checkEqualDoubles(double d1, double d2) {
+        return EPSILON > Math.abs(d1-d2);
     }
 
     @Override
     public boolean equals(Object coordinate) {
         return isEqual((Coordinate) coordinate);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
+    }
+
     public int getId() {
 		return id;
 	}
