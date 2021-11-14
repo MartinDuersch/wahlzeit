@@ -9,11 +9,29 @@ public class AnimalPhoto extends Photo {
         private Gender gender;
 
         public AnimalPhoto (Animal animal, Gender gender) {
-                Photo photo = new Photo();
-                AnimalPhoto animalPhoto = (AnimalPhoto) photo;
-                animalPhoto.animal = animal;
-                animalPhoto.gender = gender;
+            AnimalPhoto animalPhoto = new AnimalPhoto();
+            animalPhoto.setAnimal(animal);
+            animalPhoto.setGender(gender);
         }
+
+        public AnimalPhoto (String animal, String gender) {
+            AnimalPhoto animalPhoto = new AnimalPhoto();
+            animalPhoto.setAnimal(Animal.getFromString(animal));
+            animalPhoto.setGender(Gender.getFromString(gender));
+        }
+
+        public AnimalPhoto (Animal animal) {
+            AnimalPhoto animalPhoto = new AnimalPhoto();
+            animalPhoto.setAnimal(animal);
+            animalPhoto.setGender(Gender.getFromInt(0));
+        }
+
+        public AnimalPhoto (Gender gender) {
+            AnimalPhoto animalPhoto = new AnimalPhoto();
+            animalPhoto.setGender(gender);
+            animalPhoto.setAnimal(Animal.getFromInt(0));
+        }
+
 
         @Override
         public void writeOn(ResultSet rset) throws SQLException {

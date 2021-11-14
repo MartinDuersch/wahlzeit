@@ -30,6 +30,20 @@ public enum Animal implements EnumValue{
 		throw new IllegalArgumentException("invalid Animal string: " + myAnimal);
 	}
 
+		/**
+	 * @methodtype conversion
+	 */
+	public static Animal getFromInt(int myValue) throws IllegalArgumentException {
+		assertIsValidAnimalAsInt(myValue);
+		return allValues[myValue];
+	}
+
+	protected static void assertIsValidAnimalAsInt(int myValue) throws IllegalArgumentException {
+		if ((myValue < 0) || (myValue > 3)) {
+			throw new IllegalArgumentException("invalid Animal int: " + myValue);
+		}
+	}
+
         /**
 	 * 
 	 */
