@@ -9,27 +9,28 @@ public class AnimalPhoto extends Photo {
         private Gender gender;
 
         public AnimalPhoto (Animal animal, Gender gender) {
-            AnimalPhoto animalPhoto = new AnimalPhoto();
-            animalPhoto.setAnimal(animal);
-            animalPhoto.setGender(gender);
+            this.id = PhotoId.getNextId();
+            this.animal=animal;
+            this.gender=gender;
+            incWriteCount();
         }
 
         public AnimalPhoto (String animal, String gender) {
-            AnimalPhoto animalPhoto = new AnimalPhoto();
-            animalPhoto.setAnimal(Animal.getFromString(animal));
-            animalPhoto.setGender(Gender.getFromString(gender));
+            this.id = PhotoId.getNextId();
+            this.animal=Animal.getFromString(animal);
+            this.gender=Gender.getFromString(gender);
         }
 
         public AnimalPhoto (Animal animal) {
-            AnimalPhoto animalPhoto = new AnimalPhoto();
-            animalPhoto.setAnimal(animal);
-            animalPhoto.setGender(Gender.getFromInt(0));
+            this.id = PhotoId.getNextId();
+            this.animal=animal;
+            this.gender=Gender.getFromInt(0);
         }
 
         public AnimalPhoto (Gender gender) {
-            AnimalPhoto animalPhoto = new AnimalPhoto();
-            animalPhoto.setGender(gender);
-            animalPhoto.setAnimal(Animal.getFromInt(0));
+            this.id = PhotoId.getNextId();
+            this.gender=gender;
+            this.animal=Animal.getFromInt(0);
         }
 
 
