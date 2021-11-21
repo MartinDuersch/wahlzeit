@@ -9,6 +9,7 @@ public class AnimalPhoto extends Photo {
         private Gender gender;
 
         public AnimalPhoto (Animal animal, Gender gender) {
+            super();
             this.id = PhotoId.getNextId();
             this.animal=animal;
             this.gender=gender;
@@ -16,21 +17,27 @@ public class AnimalPhoto extends Photo {
         }
 
         public AnimalPhoto (String animal, String gender) {
+            super();
             this.id = PhotoId.getNextId();
             this.animal=Animal.getFromString(animal);
             this.gender=Gender.getFromString(gender);
+            incWriteCount();
         }
 
         public AnimalPhoto (Animal animal) {
+            super();
             this.id = PhotoId.getNextId();
             this.animal=animal;
             this.gender=Gender.getFromInt(0);
+            incWriteCount();
         }
 
         public AnimalPhoto (Gender gender) {
+            super();
             this.id = PhotoId.getNextId();
             this.gender=gender;
             this.animal=Animal.getFromInt(0);
+            incWriteCount();
         }
 
 

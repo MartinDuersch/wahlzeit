@@ -9,6 +9,9 @@ public class AnimalPhotoFactory extends PhotoFactory{
 	 */
 	private static AnimalPhotoFactory instance = null;
 	
+	protected AnimalPhotoFactory() {
+		// do nothing
+	}
 	/**
 	 * Public singleton access method.
 	 */
