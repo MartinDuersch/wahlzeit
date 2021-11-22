@@ -9,8 +9,8 @@ public class LocationTest {
         
         @Test
 	public void testLocationConstructor () {
-                Coordinate coordinate1 = new Coordinate(0, 0, 0);
-		Coordinate coordinate2 = new Coordinate(-4, 6, 7);
+                CartesianCoordinate coordinate1 = new CartesianCoordinate(0, 0, 0);
+		CartesianCoordinate coordinate2 = new CartesianCoordinate(-4, 6, 7);
 
                 Location location1 = new Location(coordinate1);
                 Location location2 = new Location(coordinate2);
