@@ -16,27 +16,29 @@ public class CoordinateManager extends ObjectManager {
 		return instance;
 	}
 
-        protected Coordinate createObject(ResultSet rset) throws SQLException {
-		return new Coordinate(rset);
+        protected CartesianCoordinate createObject(ResultSet rset) throws SQLException {
+
+		return new CartesianCoordinate(rset);
 	}
 
         public void saveCoordinate(Coordinate coordinate) {
+		CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
 		try {
 			PreparedStatement stmt = getUpdatingStatement("SELECT * FROM coordinates WHERE id = ?");
-			updateObject(coordinate, stmt);
+			updateObject(cartesianCoordinate, stmt);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
 		}
 	}
 
-        public Coordinate createCoordinate(double x, double y, double z) throws Exception {
-                Coordinate coordinate = new Coordinate(x, y, z);
-                coordinate.setId(Coordinate.getNextIdAsInt());
+        public CartesianCoordinate createCoordinate(double x, double y, double z) throws Exception {
+                CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
+                coordinate.setId(CartesianCoordinate.getNextIdAsInt());
 		addCoordinate(coordinate);
 		return coordinate;
 	}
 
-        public void addCoordinate(Coordinate coordinate) {
+        public void addCoordinate(CartesianCoordinate coordinate) {
 		int id = coordinate.getId();
 		try {
 			PreparedStatement stmt = getReadingStatement("INSERT INTO coordinates(id) VALUES(?)");

@@ -64,18 +64,18 @@ public class UploadPhotoFormHandler extends AbstractWebFormHandler {
 			photo.setTags(new Tags(tags));
 
 			//TODO: Check whether File/Photo has Location/Coordinate Data
-			if (true) {
+			if (false) {
 				//TODO: Extract Location/Coordinate data from file
-				Coordinate coordinate = cm.createCoordinate(1.0, 1.0, 1.0);
-				cm.saveCoordinate(coordinate);
+				// Coordinate coordinate = cm.createCoordinate(1.0, 1.0, 1.0);
+				// cm.saveCoordinate(coordinate);
 
-				Location location = lm.createLocation(coordinate);
-				location.setCoordinate(coordinate);
-				location.setCoordinateId(coordinate.getId());
-				lm.saveLocation(location);
+				// Location location = lm.createLocation(coordinate);
+				// location.setCoordinate(coordinate);
+				// location.setCoordinateId(coordinate.getId());
+				// lm.saveLocation(location);
 				
-				photo.setLocationId(location.getId());
-				photo.setLocation(location);
+				// photo.setLocationId(location.getId());
+				// photo.setLocation(location);
 			}
 			pm.savePhoto(photo);
 
