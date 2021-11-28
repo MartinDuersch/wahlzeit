@@ -13,11 +13,12 @@ public class SphericCoordinate extends AbstractCoordinate{
 		this.theta = theta;
 	}
 
+        //converts spheric to cartesian representation
         @Override
         public CartesianCoordinate asCartesianCoordinate(){
-		double x = this.radius * Math.sin(this.theta) * Math.cos(this.phi);
-		double y = this.radius * Math.sin(this.theta) * Math.sin(this.phi);
-		double z = this.radius * Math.cos(this.theta);
+		double x = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
+		double y = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
+		double z = this.radius * Math.cos(this.phi);
 
 		return new CartesianCoordinate(x,y,z);
 	}

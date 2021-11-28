@@ -1,12 +1,5 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.Persistent;
-import org.wahlzeit.services.DataObject;
-import java.util.Objects;
-import java.security.InvalidAlgorithmParameterException;
-import java.sql.*;
-
-
 public interface Coordinate{
 
     public CartesianCoordinate asCartesianCoordinate();
