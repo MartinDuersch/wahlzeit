@@ -5,28 +5,20 @@ import org.junit.Test;
 
 public class SphericCoordinateTest {
 
-        //TODO: Debug
-        // @Test
-	// public void testGetCartesianDistance() {
-	// 	SphericCoordinate coordinate1 = new CartesianCoordinate(-4, 6, 7).asSphericCoordinate();
-        //         SphericCoordinate coordinate2 = new CartesianCoordinate(10, -11, 12).asSphericCoordinate();
-
-        //         assertTrue(coordinate1.getCartesianDistance(coordinate2) == Math.sqrt(510));
-	// }
-
+        
         @Test
 	public void testIsEqualAndEquals() {
-		SphericCoordinate coordinate2 = new CartesianCoordinate(-4, 6, 7).asSphericCoordinate();
+                SphericCoordinate coordinate2 = new CartesianCoordinate(-4, 6, 7).asSphericCoordinate();
                 SphericCoordinate coordinate3 = new CartesianCoordinate(10, -11, 12).asSphericCoordinate();
                 
                 assertTrue(coordinate2.isEqual(coordinate2));
                 assertTrue(coordinate2.equals(coordinate2));
-
+                
                 assertFalse(coordinate2.isEqual(coordinate3));
                 assertFalse(coordinate2.equals(coordinate3));
-
+                
 	}
-
+        
         @Test
 	public void testHashcode() {
                 SphericCoordinate coordinate1 = new SphericCoordinate(0, 0, 0);
@@ -34,7 +26,7 @@ public class SphericCoordinateTest {
                 
                 assertTrue(coordinate1.hashCode() != coordinate2.hashCode());
 	}
-
+        
         @Test
 	public void testIsEqualAsSphericCoordinate() {
                 SphericCoordinate coordinate1 = new SphericCoordinate(1, 2, 3);
@@ -42,7 +34,7 @@ public class SphericCoordinateTest {
                 
                 assertTrue(coordinate1.asSphericCoordinate().isEqual(coordinate2.asSphericCoordinate()));
 	}
-
+        
         @Test
 	public void testIsEqualAsCartesianCoordinate() {
                 SphericCoordinate coordinate1 = new SphericCoordinate(1, 2, 3);
@@ -50,13 +42,29 @@ public class SphericCoordinateTest {
                 
                 assertTrue(coordinate1.asCartesianCoordinate().isEqual(coordinate2.asCartesianCoordinate()));
 	}
+        
+        @Test
+        public void testGetCartesianDistance() {
+                SphericCoordinate coordinate1 = new CartesianCoordinate(-4, 6, 7).asSphericCoordinate();
+                SphericCoordinate coordinate2 = new CartesianCoordinate(10, -11, 12).asSphericCoordinate();
 
+                assertTrue(AbstractCoordinate.checkEqualDoubles(coordinate1.getCartesianDistance(coordinate2),Math.sqrt(510)));
+        }
+        
         @Test
 	public void testAsCartesianCoordinate() {
 		SphericCoordinate coordinate1 = new SphericCoordinate(5, 30, 60);
                 CartesianCoordinate coordinate2 = new CartesianCoordinate(4.705070719, 1.505812665, 0.7712572494);
                 
                 assertTrue(coordinate1.asCartesianCoordinate().isEqual(coordinate2));
+	}
+
+        @Test
+	public void testGetCentralAngle() {
+                SphericCoordinate coordinate1 = new SphericCoordinate(5, 30, 60);
+                SphericCoordinate coordinate2 = new SphericCoordinate(5, 60, 30);
+                
+                assertTrue(AbstractCoordinate.checkEqualDoubles(coordinate1.getCentralAngle(coordinate2),1.288563));
 	}
 
 }
