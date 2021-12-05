@@ -13,8 +13,8 @@ public class SphericCoordinate extends AbstractCoordinate{
 		this.theta = theta;
 	}
 
-        //converts spheric to cartesian representation
         @Override
+        //converts spheric to cartesian representation
         public CartesianCoordinate asCartesianCoordinate(){
 		double x = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
 		double y = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
@@ -22,6 +22,20 @@ public class SphericCoordinate extends AbstractCoordinate{
 
 		return new CartesianCoordinate(x,y,z);
 	}
+
+        //returns centralAngle of 2 Coordinates
+        @Override
+        public double getCentralAngle(Coordinate coordinate){
+                SphericCoordinate coordinateSpheric = coordinate.asSphericCoordinate();
+
+                //calculates centra angle via chord length
+                double deltaX = Math.cos(this.getTheta()) * Math.cos(this.getPhi()) - Math.cos(coordinateSpheric.getTheta()) * Math.cos(coordinateSpheric.getPhi());
+                double deltaY = Math.cos(this.getTheta()) * Math.sin(this.getPhi()) - Math.cos(coordinateSpheric.getTheta()) * Math.sin(coordinateSpheric.getPhi());
+                double deltaZ = Math.sin(this.getTheta()) - Math.sin(coordinateSpheric.getTheta());
+
+                double centralAngle = 2 * Math.asin(Math.sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ)/2);
+                return centralAngle;
+        }
 
         public double getPhi() {
 		return phi;

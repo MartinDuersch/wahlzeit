@@ -40,6 +40,49 @@ public class CartesianCoordinate extends AbstractCoordinate{
 		incWriteCount();
 	}
 
+	//returns cartesianDistance of 2 Coordinates
+	@Override
+	public double getCartesianDistance(Coordinate coordinate) {
+                CartesianCoordinate coordinateCartesian = coordinate.asCartesianCoordinate();
+
+                return Math.sqrt(
+                        Math.pow(this.getX() - coordinateCartesian.getX(), 2) +
+                        Math.pow(this.getY() - coordinateCartesian.getY(), 2) +
+                        Math.pow(this.getZ() - coordinateCartesian.getZ(), 2));
+        }
+	
+	@Override
+	public boolean isEqual (Coordinate coordinate) {
+		CartesianCoordinate coordinateToCompare = coordinate.asCartesianCoordinate();
+		return (checkEqualDoubles(this.getX(), coordinateToCompare.getX()) &&
+                	checkEqualDoubles(this.getY(), coordinateToCompare.getY()) &&
+                	checkEqualDoubles(this.getZ(), coordinateToCompare.getZ()));
+        	
+	}
+
+	//checks if double values are "close enough"
+	public static boolean checkEqualDoubles(double d1, double d2) {
+		return EPSILON > Math.abs(d1-d2);
+	}
+
+	//loading and saving data from DB will only happen in cartesian representation
+	@Override
+	public void readFrom(ResultSet rset) throws SQLException {
+		CartesianCoordinate thisCartesian = this.asCartesianCoordinate();
+		thisCartesian.id = rset.getInt("id");
+		thisCartesian.x = rset.getDouble("x");
+		thisCartesian.y = rset.getDouble("y");
+		thisCartesian.z = rset.getDouble("z");
+	}
+
+	@Override
+	public void writeOn(ResultSet rset) throws SQLException {
+		CartesianCoordinate thisCartesian = this.asCartesianCoordinate();
+		rset.updateInt("id", thisCartesian.id);
+		rset.updateDouble("x", thisCartesian.x);	
+		rset.updateDouble("y", thisCartesian.y);	
+		rset.updateDouble("z", thisCartesian.z);	
+	}
 
 	public void writeId(PreparedStatement stmt, int pos) throws SQLException {
 		stmt.setInt(pos, id);

@@ -32,67 +32,28 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
         }
         
         //compares 2 Coordinates independently of their subtypes
-        public boolean isEqual(Coordinate coordinate) {
-                if (coordinate.asCartesianCoordinate() instanceof CartesianCoordinate == false) {
-                        return false;
-                }
-                
-                if (this == coordinate) {
-                        return true;
-                }
-                var coordinateThis = this.asCartesianCoordinate();
-                var coordinateToCompare = coordinate.asCartesianCoordinate();
-                
-                return (checkEqualDoubles(coordinateThis.getX(), coordinateToCompare.getX()) &&
-                checkEqualDoubles(coordinateThis.getY(), coordinateToCompare.getY()) &&
-                checkEqualDoubles(coordinateThis.getZ(), coordinateToCompare.getZ()));
-        }
-        
-        //checks if double values are "close enough"
-        public static boolean checkEqualDoubles(double d1, double d2) {
-                return EPSILON > Math.abs(d1-d2);
+        public boolean isEqual(Coordinate coordinate) {           
+                return this.asCartesianCoordinate().equals(coordinate);
         }
 
         //returns cartesianDistance of 2 Coordinates independently of their subtypes
         public double getCartesianDistance(Coordinate coordinate) {
-                CartesianCoordinate coordinateThis = this.asCartesianCoordinate();
-                CartesianCoordinate coordinateCartesian = coordinate.asCartesianCoordinate();
-
-                return Math.sqrt(
-                        Math.pow(coordinateThis.getX() - coordinateCartesian.getX(), 2) +
-                        Math.pow(coordinateThis.getY() - coordinateCartesian.getY(), 2) +
-                        Math.pow(coordinateThis.getZ() - coordinateCartesian.getZ(), 2));
+                return this.asCartesianCoordinate().getCartesianDistance(coordinate);
         }
 
         //returns centralAngle of 2 Coordinates independently of their subtypes
         public double getCentralAngle(Coordinate coordinate){
-                SphericCoordinate coordinateThis = this.asSphericCoordinate();
-                SphericCoordinate coordinateSpheric = coordinate.asSphericCoordinate();
+                return this.asSphericCoordinate().getCentralAngle(coordinate);
 
-                //calculates centra angle via chord length
-		double deltaX = Math.cos(coordinateThis.getTheta()) * Math.cos(coordinateThis.getPhi()) - Math.cos(coordinateSpheric.getTheta()) * Math.cos(coordinateSpheric.getPhi());
-		double deltaY = Math.cos(coordinateThis.getTheta()) * Math.sin(coordinateThis.getPhi()) - Math.cos(coordinateSpheric.getTheta()) * Math.sin(coordinateSpheric.getPhi());
-		double deltaZ = Math.sin(coordinateThis.getTheta()) - Math.sin(coordinateSpheric.getTheta());
-
-		double centralAngle = 2 * Math.asin(Math.sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ)/2);
-		return centralAngle;
 	}
 
         //loading and saving data from DB will only happen in cartesian representation
         public void readFrom(ResultSet rset) throws SQLException {
-                CartesianCoordinate thisCartesian = this.asCartesianCoordinate();
-		thisCartesian.id = rset.getInt("id");
-                thisCartesian.x = rset.getDouble("x");
-                thisCartesian.y = rset.getDouble("y");
-                thisCartesian.z = rset.getDouble("z");
+                this.asCartesianCoordinate().readFrom(rset);
 	}
 
         public void writeOn(ResultSet rset) throws SQLException {
-                CartesianCoordinate thisCartesian = this.asCartesianCoordinate();
-		rset.updateInt("id", thisCartesian.id);
-		rset.updateDouble("x", thisCartesian.x);	
-                rset.updateDouble("y", thisCartesian.y);	
-                rset.updateDouble("z", thisCartesian.z);	
+                this.asCartesianCoordinate().writeOn(rset);	
 	}
 
         public static synchronized int getNextIdAsInt() {

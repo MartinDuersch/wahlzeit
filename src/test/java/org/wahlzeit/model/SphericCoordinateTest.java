@@ -48,7 +48,7 @@ public class SphericCoordinateTest {
                 SphericCoordinate coordinate1 = new CartesianCoordinate(-4, 6, 7).asSphericCoordinate();
                 SphericCoordinate coordinate2 = new CartesianCoordinate(10, -11, 12).asSphericCoordinate();
 
-                assertTrue(AbstractCoordinate.checkEqualDoubles(coordinate1.getCartesianDistance(coordinate2),Math.sqrt(510)));
+                assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCartesianDistance(coordinate2),Math.sqrt(510)));
         }
         
         @Test
@@ -64,7 +64,7 @@ public class SphericCoordinateTest {
                 SphericCoordinate coordinate1 = new SphericCoordinate(5, 30, 60);
                 SphericCoordinate coordinate2 = new SphericCoordinate(5, 60, 30);
                 
-                assertTrue(AbstractCoordinate.checkEqualDoubles(coordinate1.getCentralAngle(coordinate2),1.288563));
+                assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCentralAngle(coordinate2),1.288563));
 	}
 
 }
