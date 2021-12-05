@@ -21,8 +21,8 @@ public class SphericCoordinateTest {
         
         @Test
 	public void testHashcode() {
-                SphericCoordinate coordinate1 = new SphericCoordinate(0, 0, 0);
-		SphericCoordinate coordinate2 = new SphericCoordinate(-4, 6, 7);
+                SphericCoordinate coordinate1 = new SphericCoordinate(1, 0, 0);
+		SphericCoordinate coordinate2 = new SphericCoordinate(1, 6, 7);
                 
                 assertTrue(coordinate1.hashCode() != coordinate2.hashCode());
 	}

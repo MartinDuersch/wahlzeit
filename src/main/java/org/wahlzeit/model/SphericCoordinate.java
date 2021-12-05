@@ -11,21 +11,29 @@ public class SphericCoordinate extends AbstractCoordinate{
 		this.radius = radius;
 		this.phi = phi;
 		this.theta = theta;
+
+                assertClassInvariants();
+                incWriteCount();
 	}
 
         @Override
         //converts spheric to cartesian representation
         public CartesianCoordinate asCartesianCoordinate(){
+                //check vor valid SphericCoordinate
+		assertClassInvariants();
+
 		double x = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
 		double y = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
 		double z = this.radius * Math.cos(this.phi);
-
 		return new CartesianCoordinate(x,y,z);
 	}
 
         //returns centralAngle of 2 Coordinates
         @Override
         public double getCentralAngle(Coordinate coordinate){
+                //check precondition:
+                assertNotNull(coordinate);
+                assertInstanceOfCoordinate(coordinate);
                 SphericCoordinate coordinateSpheric = coordinate.asSphericCoordinate();
 
                 //calculates centra angle via chord length
@@ -36,6 +44,32 @@ public class SphericCoordinate extends AbstractCoordinate{
                 double centralAngle = 2 * Math.asin(Math.sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ)/2);
                 return centralAngle;
         }
+
+        @Override
+	public void assertClassInvariants() {
+	        assertValidRadius(this.radius);
+	        //assertValidPhi(this.phi);
+	        //assertValidTheta(this.theta);
+	        return;
+	}
+
+	private void assertValidRadius(double radius) {
+		if (radius <= 0) {
+			throw new IllegalArgumentException("Radius must be > 0");
+		}
+	}
+
+        // private void assertValidPhi(double phi) {
+	// 	if () {
+	// 		throw new IllegalArgumentException("Phi");
+	// 	}
+	// }
+
+        // private void assertValidTheta(double theta) {
+	// 	if () {
+	// 		throw new IllegalArgumentException("Theta");
+	// 	}
+	// }
 
         public double getPhi() {
 		return phi;
@@ -50,15 +84,18 @@ public class SphericCoordinate extends AbstractCoordinate{
         }
 
         public void setRadius(double radius) {
+                assertValidRadius(radius);
                 this.radius = radius;
         }
 
         public void setPhi(double phi) {
                 this.phi = phi;
+                assertClassInvariants();
         }
 
         public void setTheta(double theta) {
                 this.theta = theta;
+                assertClassInvariants();
         }
 
         public void writeId(PreparedStatement stmt, int pos) throws SQLException {
@@ -71,6 +108,7 @@ public class SphericCoordinate extends AbstractCoordinate{
 
         public void setId(int id) {
 		this.id = id;
+                assertClassInvariants();
 	}
 
 }

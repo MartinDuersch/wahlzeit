@@ -8,51 +8,74 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	protected double z;
 
     	public CartesianCoordinate(double x, double y, double z) {
-		this.setCartesianCoordinates(x, y, z);
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		assertClassInvariants();
+		incWriteCount();
 	}
 
     	public CartesianCoordinate(int id, double x, double y, double z) {
-		this.setCartesianCoordinates(x, y, z);
+		this.id = id;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		assertClassInvariants();
+		incWriteCount();
 	}
 
 	public CartesianCoordinate(ResultSet rset) throws SQLException {
-		readFrom(rset);
+		this.id = rset.getInt("id");
+		this.x = rset.getDouble("x");
+		this.y = rset.getDouble("y");
+		this.z = rset.getDouble("z");
 	}
 	
 	//converts cartesian to spheric representation
 	@Override
 	public SphericCoordinate asSphericCoordinate() throws ArithmeticException{
+		//check vor valid CartesianCoordinate
+		assertClassInvariants();
+
 		double r = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
 		double phi = Math.acos(this.z/r);
-		
 		if (r <= EPSILON) {
 			return new SphericCoordinate(0, 0, 0);
 		}
-		
 		double theta = Math.atan2(y, x);
+
 		return new SphericCoordinate(r, phi, theta);
-	}
-    
-	public void setCartesianCoordinates(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		incWriteCount();
 	}
 
 	//returns cartesianDistance of 2 Coordinates
 	@Override
 	public double getCartesianDistance(Coordinate coordinate) {
-                CartesianCoordinate coordinateCartesian = coordinate.asCartesianCoordinate();
+		//check precondition:
+		assertNotNull(coordinate);
+                assertInstanceOfCoordinate(coordinate);
 
-                return Math.sqrt(
+                CartesianCoordinate coordinateCartesian = coordinate.asCartesianCoordinate();
+		double result = Math.sqrt(
                         Math.pow(this.getX() - coordinateCartesian.getX(), 2) +
                         Math.pow(this.getY() - coordinateCartesian.getY(), 2) +
                         Math.pow(this.getZ() - coordinateCartesian.getZ(), 2));
+
+		//check postcondition
+		if (result < 0) {
+			throw new ArithmeticException("negative after square root???");
+		}
+
+                return result;
+
+		
         }
 	
 	@Override
 	public boolean isEqual (Coordinate coordinate) {
+		//check precondition:
+		assertNotNull(coordinate);
+		assertInstanceOfCoordinate(coordinate);
+
 		CartesianCoordinate coordinateToCompare = coordinate.asCartesianCoordinate();
 		return (checkEqualDoubles(this.getX(), coordinateToCompare.getX()) &&
                 	checkEqualDoubles(this.getY(), coordinateToCompare.getY()) &&
@@ -73,6 +96,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 		thisCartesian.x = rset.getDouble("x");
 		thisCartesian.y = rset.getDouble("y");
 		thisCartesian.z = rset.getDouble("z");
+		assertClassInvariants();
 	}
 
 	@Override
@@ -82,6 +106,23 @@ public class CartesianCoordinate extends AbstractCoordinate{
 		rset.updateDouble("x", thisCartesian.x);	
 		rset.updateDouble("y", thisCartesian.y);	
 		rset.updateDouble("z", thisCartesian.z);	
+	}
+
+	@Override
+	public void assertClassInvariants() {
+	    assertValidDouble(this.x);
+	    assertValidDouble(this.y);
+	    assertValidDouble(this.z);
+	    return;
+	}
+
+	private void assertValidDouble(double d) {
+		if (Double.isInfinite(d)) {
+			throw new IllegalArgumentException("invalid value");
+		}
+		if (Double.isNaN(d)) {
+			throw new IllegalArgumentException("invalid value");
+		}
 	}
 
 	public void writeId(PreparedStatement stmt, int pos) throws SQLException {
@@ -108,20 +149,6 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	public void setId(int id) {
 		this.id = id;
 		incWriteCount();
-	}
-
-	public void setX(double x) {
-		this.x = x;
-		incWriteCount();
-	}
-
-	public void setY(double y) {
-		this.y = y;
-		incWriteCount();
-	}
-
-	public void setZ(double z) {
-		this.z = z;
-		incWriteCount();
+		assertClassInvariants();
 	}
 }

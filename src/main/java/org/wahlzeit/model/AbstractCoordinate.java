@@ -72,4 +72,16 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
         public String getIdAsString() {
 		return String.valueOf(id);
 	}
+
+        public void assertNotNull(Object object) {
+                if (object == null) {
+                        throw new IllegalArgumentException("Given Object is null");
+                }
+        }
+
+        public void assertInstanceOfCoordinate(Object object) {
+                if (!(object instanceof Coordinate)) {
+                    throw new IllegalArgumentException("Given Object is no instance of class Coordinate");
+                }
+        }
 }

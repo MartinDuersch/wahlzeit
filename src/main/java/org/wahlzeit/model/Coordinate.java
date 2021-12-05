@@ -8,4 +8,5 @@ public interface Coordinate{
     public double getCentralAngle(Coordinate coordinate);
     public boolean isEqual(Coordinate coordinate);
     public int getId();
+    public void assertClassInvariants();
   }
