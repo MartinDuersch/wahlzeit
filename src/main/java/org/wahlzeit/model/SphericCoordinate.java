@@ -47,9 +47,10 @@ public class SphericCoordinate extends AbstractCoordinate{
 
         @Override
 	public void assertClassInvariants() {
+                assertValidDouble(this.radius);
+                assertValidDouble(this.phi);
+                assertValidDouble(this.theta);
 	        assertValidRadius(this.radius);
-	        //assertValidPhi(this.phi);
-	        //assertValidTheta(this.theta);
 	        return;
 	}
 
@@ -58,18 +59,6 @@ public class SphericCoordinate extends AbstractCoordinate{
 			throw new IllegalArgumentException("Radius must be > 0");
 		}
 	}
-
-        // private void assertValidPhi(double phi) {
-	// 	if () {
-	// 		throw new IllegalArgumentException("Phi");
-	// 	}
-	// }
-
-        // private void assertValidTheta(double theta) {
-	// 	if () {
-	// 		throw new IllegalArgumentException("Theta");
-	// 	}
-	// }
 
         public double getPhi() {
 		return phi;

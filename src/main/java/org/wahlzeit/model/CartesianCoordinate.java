@@ -116,15 +116,6 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	    return;
 	}
 
-	private void assertValidDouble(double d) {
-		if (Double.isInfinite(d)) {
-			throw new IllegalArgumentException("invalid value");
-		}
-		if (Double.isNaN(d)) {
-			throw new IllegalArgumentException("invalid value");
-		}
-	}
-
 	public void writeId(PreparedStatement stmt, int pos) throws SQLException {
 		stmt.setInt(pos, id);
 	}

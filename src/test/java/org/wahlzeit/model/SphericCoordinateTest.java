@@ -67,4 +67,15 @@ public class SphericCoordinateTest {
                 assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCentralAngle(coordinate2),1.288563));
 	}
 
+        
+        @Test(expected = IllegalArgumentException.class)
+	public void testClassInvariantsNaN() {
+                SphericCoordinate coordinate1 = new SphericCoordinate(Double.NaN, 0, 0);
+	}
+
+        @Test(expected = IllegalArgumentException.class)
+	public void testClassInvariantsRadius() {
+                SphericCoordinate coordinate1 = new SphericCoordinate(-1, 0, 0);
+	}
+
 }

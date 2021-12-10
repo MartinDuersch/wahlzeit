@@ -84,4 +84,13 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
                     throw new IllegalArgumentException("Given Object is no instance of class Coordinate");
                 }
         }
+
+        public void assertValidDouble(double d) {
+		if (Double.isInfinite(d)) {
+			throw new IllegalArgumentException("invalid value");
+		}
+		if (Double.isNaN(d)) {
+			throw new IllegalArgumentException("invalid value");
+		}
+	}
 }

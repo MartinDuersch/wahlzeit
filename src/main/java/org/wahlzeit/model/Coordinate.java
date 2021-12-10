@@ -9,4 +9,6 @@ public interface Coordinate{
     public boolean isEqual(Coordinate coordinate);
     public int getId();
     public void assertClassInvariants();
+    public void assertInstanceOfCoordinate(Object object);
+    public void assertNotNull(Object object);
   }

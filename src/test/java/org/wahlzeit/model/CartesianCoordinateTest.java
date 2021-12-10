@@ -6,8 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class CartesianCoordinateTest {
-
-        
+     
         @Test
 	public void testIsEqualAndEquals() {
                 CartesianCoordinate coordinate1 = new CartesianCoordinate(0, 0, 0);
@@ -73,5 +72,15 @@ public class CartesianCoordinateTest {
                 CartesianCoordinate coordinate2 = new CartesianCoordinate(10, -11, 12);
                 
                 assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCentralAngle(coordinate2),2.981677));
+	}
+
+        @Test(expected = IllegalArgumentException.class)
+	public void testClassInvariantsNaN() {
+                CartesianCoordinate coordinate1 = new CartesianCoordinate(Double.NaN, 0, 0);
+	}
+
+        @Test(expected = IllegalArgumentException.class)
+	public void testClassInvariantsInfinite() {
+                CartesianCoordinate coordinate1 = new CartesianCoordinate(Double.NEGATIVE_INFINITY, 0, 0);
 	}
 }
