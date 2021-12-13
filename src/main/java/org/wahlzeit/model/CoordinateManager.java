@@ -22,7 +22,13 @@ public class CoordinateManager extends ObjectManager {
 	}
 
         public void saveCoordinate(Coordinate coordinate) {
-		CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
+		CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(0,0,0);
+		try {
+			
+			cartesianCoordinate = coordinate.asCartesianCoordinate();
+		} catch (Exception e) {
+			//TODO: handle exception
+		}
 		try {
 			PreparedStatement stmt = getUpdatingStatement("SELECT * FROM coordinates WHERE id = ?");
 			updateObject(cartesianCoordinate, stmt);

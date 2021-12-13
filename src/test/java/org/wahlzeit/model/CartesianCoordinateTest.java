@@ -36,10 +36,14 @@ public class CartesianCoordinateTest {
                 CartesianCoordinate coordinate1 = new CartesianCoordinate(0, 0, 0);
                 CartesianCoordinate coordinate2 = new CartesianCoordinate(-4, 6, 7);
                 CartesianCoordinate coordinate3 = new CartesianCoordinate(10, -11, 12);
-
-                assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCartesianDistance(coordinate2),Math.sqrt(101)));
-                assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCartesianDistance(coordinate3),Math.sqrt(365)));
-                assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate2.getCartesianDistance(coordinate3),Math.sqrt(510)));
+                try {
+                        
+                        assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCartesianDistance(coordinate2),Math.sqrt(101)));
+                        assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCartesianDistance(coordinate3),Math.sqrt(365)));
+                        assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate2.getCartesianDistance(coordinate3),Math.sqrt(510)));
+                } catch (Exception e) {
+                        //TODO: handle exception
+                }
         }
 
         @Test
@@ -67,11 +71,15 @@ public class CartesianCoordinateTest {
 	}   
 
         @Test
-	public void testGetCentralAngle() {
+	public void testGetCentralAngle() throws CoordinateException{
                 CartesianCoordinate coordinate1 = new CartesianCoordinate(-4, 6, 7);
                 CartesianCoordinate coordinate2 = new CartesianCoordinate(10, -11, 12);
-                
-                assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCentralAngle(coordinate2),2.981677));
+
+                try {   
+                        assertTrue(CartesianCoordinate.checkEqualDoubles(coordinate1.getCentralAngle(coordinate2),2.981677));
+                } catch (Exception e) {
+                        throw e;
+                }
 	}
 
         @Test(expected = IllegalArgumentException.class)

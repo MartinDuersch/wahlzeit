@@ -38,48 +38,57 @@ public class CartesianCoordinate extends AbstractCoordinate{
 		assertClassInvariants();
 
 		double r = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
-		double phi = Math.acos(this.z/r);
-		if (r <= EPSILON) {
-			return new SphericCoordinate(0, 0, 0);
-		}
-		double theta = Math.atan2(y, x);
 
+		double phi;
+		phi = Math.acos(this.z/r);
+
+		// if (r <= EPSILON) {
+		// 	return new SphericCoordinate(0, 0, 0);
+		// }
+
+		double theta = Math.atan2(y, x);
+		
+		//class invariants of SphericCoordinate will be checked in constructor
 		return new SphericCoordinate(r, phi, theta);
 	}
 
 	//returns cartesianDistance of 2 Coordinates
 	@Override
-	public double getCartesianDistance(Coordinate coordinate) {
-		//check precondition:
-		assertNotNull(coordinate);
-                assertInstanceOfCoordinate(coordinate);
+	public double getCartesianDistance(Coordinate coordinate) throws CoordinateException{
+		try {			
+			//check precondition:
+			assertNotNull(coordinate);
+			assertInstanceOfCoordinate(coordinate);
 
-                CartesianCoordinate coordinateCartesian = coordinate.asCartesianCoordinate();
-		double result = Math.sqrt(
-                        Math.pow(this.getX() - coordinateCartesian.getX(), 2) +
-                        Math.pow(this.getY() - coordinateCartesian.getY(), 2) +
-                        Math.pow(this.getZ() - coordinateCartesian.getZ(), 2));
+			CartesianCoordinate coordinateCartesian = coordinate.asCartesianCoordinate();
 
-		//check postcondition
-		if (result < 0) {
-			throw new ArithmeticException("negative after square root???");
+
+			double result = Math.sqrt(
+				Math.pow(this.getX() - coordinateCartesian.getX(), 2) +
+				Math.pow(this.getY() - coordinateCartesian.getY(), 2) +
+				Math.pow(this.getZ() - coordinateCartesian.getZ(), 2));
+
+			return result;
+		} catch (Exception e) {
+			throw new CoordinateException(e, e.getMessage());
 		}
-
-                return result;
-
-		
         }
 	
 	@Override
-	public boolean isEqual (Coordinate coordinate) {
+	public boolean isEqual (Coordinate coordinate){
 		//check precondition:
-		assertNotNull(coordinate);
-		assertInstanceOfCoordinate(coordinate);
+		try {
+			assertNotNull(coordinate);
+			assertInstanceOfCoordinate(coordinate);
 
 		CartesianCoordinate coordinateToCompare = coordinate.asCartesianCoordinate();
 		return (checkEqualDoubles(this.getX(), coordinateToCompare.getX()) &&
                 	checkEqualDoubles(this.getY(), coordinateToCompare.getY()) &&
                 	checkEqualDoubles(this.getZ(), coordinateToCompare.getZ()));
+
+                } catch (Exception exception) {
+                        return false;
+                }
         	
 	}
 

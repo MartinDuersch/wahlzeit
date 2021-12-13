@@ -1,7 +1,7 @@
 package org.wahlzeit.model;
 import java.sql.*;
 
-public class SphericCoordinate extends AbstractCoordinate{
+class SphericCoordinate extends AbstractCoordinate{
 
 	protected double radius;
         protected double phi;
@@ -20,29 +20,40 @@ public class SphericCoordinate extends AbstractCoordinate{
         //converts spheric to cartesian representation
         public CartesianCoordinate asCartesianCoordinate(){
                 //check vor valid SphericCoordinate
-		assertClassInvariants();
-
-		double x = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
-		double y = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
-		double z = this.radius * Math.cos(this.phi);
-		return new CartesianCoordinate(x,y,z);
+                assertClassInvariants();
+                
+                double x = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
+                double y = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
+                double z = this.radius * Math.cos(this.phi);
+                return new CartesianCoordinate(x,y,z);
 	}
 
         //returns centralAngle of 2 Coordinates
         @Override
-        public double getCentralAngle(Coordinate coordinate){
-                //check precondition:
-                assertNotNull(coordinate);
-                assertInstanceOfCoordinate(coordinate);
-                SphericCoordinate coordinateSpheric = coordinate.asSphericCoordinate();
+        public double getCentralAngle(Coordinate coordinate) throws CoordinateException{
+                try {
+                        //check precondition:
+                        assertNotNull(coordinate);
+                        assertInstanceOfCoordinate(coordinate);                 
 
-                //calculates centra angle via chord length
-                double deltaX = Math.cos(this.getTheta()) * Math.cos(this.getPhi()) - Math.cos(coordinateSpheric.getTheta()) * Math.cos(coordinateSpheric.getPhi());
-                double deltaY = Math.cos(this.getTheta()) * Math.sin(this.getPhi()) - Math.cos(coordinateSpheric.getTheta()) * Math.sin(coordinateSpheric.getPhi());
-                double deltaZ = Math.sin(this.getTheta()) - Math.sin(coordinateSpheric.getTheta());
+                        SphericCoordinate coordinateSpheric;
 
-                double centralAngle = 2 * Math.asin(Math.sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ)/2);
-                return centralAngle;
+                        coordinateSpheric = coordinate.asSphericCoordinate();
+                        //calculates centra angle via chord length
+                        double deltaX = Math.cos(this.getTheta()) * Math.cos(this.getPhi()) - Math.cos(coordinateSpheric.getTheta()) * Math.cos(coordinateSpheric.getPhi());
+                        double deltaY = Math.cos(this.getTheta()) * Math.sin(this.getPhi()) - Math.cos(coordinateSpheric.getTheta()) * Math.sin(coordinateSpheric.getPhi());
+                        double deltaZ = Math.sin(this.getTheta()) - Math.sin(coordinateSpheric.getTheta());
+                        
+                        double centralAngle = 2 * Math.asin(Math.sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ)/2);
+                        
+                        //check postcondition
+                        assertValidDouble(centralAngle);
+                        return centralAngle;
+
+                } catch (Exception e) {
+                        throw new CoordinateException(e, e.getMessage());
+                }
+                        
         }
 
         @Override

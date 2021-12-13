@@ -15,36 +15,43 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
 	}
 
         //casts if dynamic type is already spheric
-        public SphericCoordinate asSphericCoordinate() {
+        public SphericCoordinate asSphericCoordinate(){
 		return (SphericCoordinate) this;
 	}
 
         @Override
-        public boolean equals(Object coordinate) {
-                return isEqual((Coordinate) coordinate);
+        public boolean equals(Object coordinate){
+                return this.isEqual((Coordinate) coordinate);
         }
 
         //hashes a coordinate via its cartesian representation
         @Override
-        public int hashCode() {
+        public int hashCode(){
                 CartesianCoordinate cartCoord = this.asCartesianCoordinate();
                 return Objects.hash(cartCoord.x, cartCoord.y, cartCoord.z);
         }
         
         //compares 2 Coordinates independently of their subtypes
-        public boolean isEqual(Coordinate coordinate) {           
-                return this.asCartesianCoordinate().equals(coordinate);
+        public boolean isEqual(Coordinate coordinate){        
+                        return this.asCartesianCoordinate().equals(coordinate);
         }
 
         //returns cartesianDistance of 2 Coordinates independently of their subtypes
-        public double getCartesianDistance(Coordinate coordinate) {
-                return this.asCartesianCoordinate().getCartesianDistance(coordinate);
+        public double getCartesianDistance(Coordinate coordinate)  throws CoordinateException{
+                try {
+                        return this.asCartesianCoordinate().getCartesianDistance(coordinate);
+                } catch (IllegalArgumentException illegalArgumentException) {
+                        throw new CoordinateException(illegalArgumentException, illegalArgumentException.getMessage());
+                }
         }
 
         //returns centralAngle of 2 Coordinates independently of their subtypes
-        public double getCentralAngle(Coordinate coordinate){
-                return this.asSphericCoordinate().getCentralAngle(coordinate);
-
+        public double getCentralAngle(Coordinate coordinate)  throws CoordinateException{
+                try {
+                        return this.asSphericCoordinate().getCentralAngle(coordinate);
+                } catch (IllegalArgumentException illegalArgumentException) {
+                        throw new CoordinateException(illegalArgumentException, illegalArgumentException.getMessage());
+                }
 	}
 
         //loading and saving data from DB will only happen in cartesian representation
