@@ -500,5 +500,9 @@ public class Photo extends DataObject {
 	public long getCreationTime() {
 		return creationTime;
 	}
+
+	public void assertClassInvariants() {
+		//TODO: check class invariants
+	}
 	
 }

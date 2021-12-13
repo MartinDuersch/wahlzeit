@@ -13,6 +13,7 @@ public class AnimalPhoto extends Photo {
             this.id = PhotoId.getNextId();
             this.animal=animal;
             this.gender=gender;
+            assertClassInvariants();
             incWriteCount();
         }
 
@@ -21,6 +22,7 @@ public class AnimalPhoto extends Photo {
             this.id = PhotoId.getNextId();
             this.animal=Animal.getFromString(animal);
             this.gender=Gender.getFromString(gender);
+            assertClassInvariants();
             incWriteCount();
         }
 
@@ -29,6 +31,7 @@ public class AnimalPhoto extends Photo {
             this.id = PhotoId.getNextId();
             this.animal=animal;
             this.gender=Gender.getFromInt(0);
+            assertClassInvariants();
             incWriteCount();
         }
 
@@ -37,12 +40,14 @@ public class AnimalPhoto extends Photo {
             this.id = PhotoId.getNextId();
             this.gender=gender;
             this.animal=Animal.getFromInt(0);
+            assertClassInvariants();
             incWriteCount();
         }
 
 
         @Override
         public void writeOn(ResultSet rset) throws SQLException {
+                assertClassInvariants();
                 rset.updateObject("gender", gender.asString());
                 rset.updateObject("animal", animal.asString());
                 super.writeOn(rset);
@@ -52,10 +57,11 @@ public class AnimalPhoto extends Photo {
         public void readFrom(ResultSet rset) throws SQLException {
                 animal = Animal.getFromString(rset.getString("animal"));
                 gender = Gender.getFromString(rset.getString("gender"));
+                assertClassInvariants();
                 super.readFrom(rset);
         }
 
-        public AnimalPhoto() {
+    public AnimalPhoto() {
 		id = PhotoId.getNextId();
 		incWriteCount();
 	}
@@ -104,6 +110,13 @@ public class AnimalPhoto extends Photo {
      */
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public void assertClassInvariants() {
+        super.assertClassInvariants();
+        Animal.assertIsValidAnimalAsInt(this.animal.asInt());
+        Gender.assertIsValidGenderAsInt(this.gender.asInt());
     }
 
 }
