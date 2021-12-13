@@ -174,12 +174,13 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 * 
 	 */
-	public void savePhoto(Photo photo) {
+	public void savePhoto(Photo photo) throws PersistenceException{
 		try {
 			PreparedStatement stmt = getUpdatingStatement("SELECT * FROM photos WHERE id = ?");
 			updateObject(photo, stmt);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+			throw new PersistenceException(sex, "Persistence operation failed");
 		}
 	}
 	
