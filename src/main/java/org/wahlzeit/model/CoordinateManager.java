@@ -22,7 +22,7 @@ public class CoordinateManager extends ObjectManager {
 	}
 
         public void saveCoordinate(Coordinate coordinate) {
-		CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(0,0,0);
+		CartesianCoordinate cartesianCoordinate =  CartesianCoordinate.getCartesianCoordinate(0,0,0);
 		try {
 			
 			cartesianCoordinate = coordinate.asCartesianCoordinate();
@@ -38,7 +38,7 @@ public class CoordinateManager extends ObjectManager {
 	}
 
         public CartesianCoordinate createCoordinate(double x, double y, double z) throws Exception {
-                CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
+                CartesianCoordinate coordinate = CartesianCoordinate.getCartesianCoordinate(x, y, z);
                 coordinate.setId(CartesianCoordinate.getNextIdAsInt());
 		addCoordinate(coordinate);
 		return coordinate;

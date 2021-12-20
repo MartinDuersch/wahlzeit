@@ -1,27 +1,40 @@
 package org.wahlzeit.model;
 import java.sql.*;
+import java.util.HashMap;
 
 public class CartesianCoordinate extends AbstractCoordinate{
-        
-    	protected double x;
-	protected double y;
-	protected double z;
 
-    	public CartesianCoordinate(double x, double y, double z) {
+	private static HashMap<Integer, CartesianCoordinate> valueObjects = new HashMap<Integer, CartesianCoordinate>();
+        
+    	protected final double x;
+	protected final double y;
+	protected final double z;
+
+	public static CartesianCoordinate getCartesianCoordinate(double x, double y, double z) {
+		CartesianCoordinate newCartesianCoordinate = new CartesianCoordinate(x, y, z);
+		int hash = newCartesianCoordinate.hashCode();
+
+		if(valueObjects.containsKey(hash)) {
+			return valueObjects.get(hash);
+		} else {			
+			valueObjects.put(hash, newCartesianCoordinate);
+			return newCartesianCoordinate;
+		}
+	}
+	
+	private CartesianCoordinate(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		assertClassInvariants();
 		incWriteCount();
 	}
-
-    	public CartesianCoordinate(int id, double x, double y, double z) {
-		this.id = id;
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		assertClassInvariants();
-		incWriteCount();
+	
+	public void delete() {
+		int hash = this.hashCode();
+		if(valueObjects.containsKey(hash)) {
+			valueObjects.remove(hash);
+		}
 	}
 
 	public CartesianCoordinate(ResultSet rset) throws SQLException {
@@ -49,7 +62,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 		double theta = Math.atan2(y, x);
 		
 		//class invariants of SphericCoordinate will be checked in constructor
-		return new SphericCoordinate(r, phi, theta);
+		return SphericCoordinate.getSphericCoordinate(r, phi, theta);
 	}
 
 	//returns cartesianDistance of 2 Coordinates
@@ -102,9 +115,9 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	public void readFrom(ResultSet rset) throws SQLException {
 		CartesianCoordinate thisCartesian = this.asCartesianCoordinate();
 		thisCartesian.id = rset.getInt("id");
-		thisCartesian.x = rset.getDouble("x");
-		thisCartesian.y = rset.getDouble("y");
-		thisCartesian.z = rset.getDouble("z");
+		// thisCartesian.x = rset.getDouble("x");
+		// thisCartesian.y = rset.getDouble("y");
+		// thisCartesian.z = rset.getDouble("z");
 		assertClassInvariants();
 	}
 

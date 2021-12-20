@@ -1,20 +1,43 @@
 package org.wahlzeit.model;
 import java.sql.*;
+import java.util.HashMap;
 
 class SphericCoordinate extends AbstractCoordinate{
 
-	protected double radius;
-        protected double phi;
-	protected double theta;
+        private static HashMap<Integer, SphericCoordinate> valueObjects = new HashMap<Integer, SphericCoordinate>();
 
-        public SphericCoordinate(double radius, double phi, double theta) {
-		this.radius = radius;
-		this.phi = phi;
-		this.theta = theta;
+	protected final double radius;
+        protected final double phi;
+	protected final double theta;
+
+        public static SphericCoordinate getSphericCoordinate(double radius, double phi, double theta) {
+		SphericCoordinate newSphericCoordinate = new SphericCoordinate(radius, phi, theta);
+		int hash = newSphericCoordinate.hashCode();
+
+		if(valueObjects.containsKey(hash)) {
+			return valueObjects.get(hash);
+		} else {			
+			valueObjects.put(hash, newSphericCoordinate);
+			return newSphericCoordinate;
+		}
+	}
+        
+        private SphericCoordinate(double radius, double phi, double theta) {
+                this.radius = radius;
+                this.phi = phi;
+                this.theta = theta;
 
                 assertClassInvariants();
                 incWriteCount();
+        }
+
+        public void delete() {
+		int hash = this.hashCode();
+		if(valueObjects.containsKey(hash)) {
+			valueObjects.remove(hash);
+		}
 	}
+
 
         @Override
         //converts spheric to cartesian representation
@@ -25,7 +48,7 @@ class SphericCoordinate extends AbstractCoordinate{
                 double x = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
                 double y = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
                 double z = this.radius * Math.cos(this.phi);
-                return new CartesianCoordinate(x,y,z);
+                return  CartesianCoordinate.getCartesianCoordinate(x,y,z);
 	}
 
         //returns centralAngle of 2 Coordinates
@@ -82,21 +105,7 @@ class SphericCoordinate extends AbstractCoordinate{
         public double getRadius() {
                 return radius;
         }
-
-        public void setRadius(double radius) {
-                assertValidRadius(radius);
-                this.radius = radius;
-        }
-
-        public void setPhi(double phi) {
-                this.phi = phi;
-                assertClassInvariants();
-        }
-
-        public void setTheta(double theta) {
-                this.theta = theta;
-                assertClassInvariants();
-        }
+        
 
         public void writeId(PreparedStatement stmt, int pos) throws SQLException {
                 stmt.setInt(pos, id);
