@@ -7,6 +7,14 @@ package org.wahlzeit.services.mailing;
 
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.SysLog;
+import org.wahlzeit.model.PatternInstance;
+
+@PatternInstance(
+	patternName = "Null Object",
+	participants = {
+		"NullEmailService", "EmailService",
+	}
+)
 
 /**
  * 

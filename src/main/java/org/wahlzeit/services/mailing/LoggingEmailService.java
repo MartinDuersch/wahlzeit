@@ -7,12 +7,18 @@ package org.wahlzeit.services.mailing;
 
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.SysLog;
-
+import org.wahlzeit.model.PatternInstance;
 /**
  * A logging mailing service logs email send attempts before sending emails.
  * This is a decorator pattern application.
  * 
  */
+@PatternInstance(
+	patternName = "Decorator",
+	participants = {
+		"LoggingEmailService", "EmailService",
+	}
+)
 public class LoggingEmailService implements EmailService {
 	
 	/**

@@ -7,6 +7,14 @@ package org.wahlzeit.services;
 
 import java.sql.*;
 import java.util.*;
+import org.wahlzeit.model.PatternInstance;
+
+@PatternInstance(
+	patternName = "Object Pool",
+	participants = {
+		"DatabaseConnection", "ObjectManager"
+	}
+)
 
 /**
  * A database connection wraps an RDMBS connection object.

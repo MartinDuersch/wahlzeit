@@ -14,6 +14,12 @@ import org.wahlzeit.services.mailing.*;
 /**
  * The UserManager provides access to and manages Users (including Moderators and Administrators).
  */
+@PatternInstance(
+	patternName = "Singleton",
+	participants = {
+		"UserManager"
+	}
+)
 public class UserManager extends ObjectManager {
 
 	/**
