@@ -1,83 +1,73 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.utils.EnumValue;
+import org.wahlzeit.services.DataObject;
 
-public enum Animal implements EnumValue{
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.*;
+import java.net.*;
 
-        UNDEFINED(0), DOG(1), CAT(2), OTHER(3);
+public class Animal {
+    private int id;
+    private AnimalType animalType;
+    private String name;
+    private Gender gender;
+    private Set<AnimalPhoto> photos;
+    public AnimalManager manager;
+    private Location location;
+    public Animal(int id, AnimalType at) {
+        this.id = id;
+        this.animalType = at;
+    }
 
-        private static Animal[] allValues = {
-		UNDEFINED, DOG, CAT, OTHER
-	};
+    public Animal(int id, AnimalType at, String name) {
+        this.id = id;
+        this.animalType = at;
+        this.name = name;
+    }
 
-        	/**
-	 * 
-	 */
-	private Animal(int myValue) {
-		value = myValue;
-	}
-	
-        	/**
-	 * @methodtype conversion
-	 */
-	public static Animal getFromString(String myAnimal) throws IllegalArgumentException {
-		for (Animal animal : Animal.values()) {
-			if (valueNames[animal.asInt()].equals(myAnimal)) {
-				return animal;
-			}
-		}
-		
-		throw new IllegalArgumentException("invalid Animal string: " + myAnimal);
-	}
+    public int getId() {
+        return id;
+    }
 
-		/**
-	 * @methodtype conversion
-	 */
-	public static Animal getFromInt(int myValue) throws IllegalArgumentException {
-		assertIsValidAnimalAsInt(myValue);
-		return allValues[myValue];
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	protected static void assertIsValidAnimalAsInt(int myValue) throws IllegalArgumentException {
-		if ((myValue < 0) || (myValue > 3)) {
-			throw new IllegalArgumentException("invalid Animal int: " + myValue);
-		}
-	}
+    public AnimalType getAnimalType() {
+        return animalType;
+    }
 
-        /**
-	 * 
-	 */
-	private static final String[] valueNames = {
-		"undefined", "dog", "cat", "other"
-	};
+    public void setAnimalType(AnimalType animalType) {
+        this.animalType = animalType;
+    }
 
-        private int value;
+    public String getName() {
+        return name;
+    }
 
-        /**
-	 * 
-	 */
-	public int asInt() {
-		return value;
-	}
-	
-	/**
-	 * 
-	 */
-	public String asString() {
-		return valueNames[value];
-	}
-	
-	/**
-	 * 
-	 */
-	public Animal[] getAllValues() {
-		return allValues;
-	}
-	
-	/**
-	 * 
-	 */
-	public String getTypeName() {
-		return "Animal";
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Set<AnimalPhoto> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<AnimalPhoto> photos) {
+        this.photos = photos;
+    }
 }
