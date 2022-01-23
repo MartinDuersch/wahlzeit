@@ -20,7 +20,7 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 * 
 	 */
-	protected static final PhotoManager instance = new AnimalPhotoManager();
+	protected static final PhotoManager instance = AnimalPhotoManager.getInstance();
 
 	/**
 	 * In-memory cache for photos
