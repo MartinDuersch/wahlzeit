@@ -46,7 +46,7 @@ public class AnimalManager extends ObjectManager {
     }
 
     private void assertIsValidString(String string){
-        if (string == null || string.isEmpty() || StringUtils.isBlank()) {
+        if (string == null || string.isEmpty() || string.isBlank()) {
             throw new IllegalArgumentException("Given string is not valid");
         }
     }
