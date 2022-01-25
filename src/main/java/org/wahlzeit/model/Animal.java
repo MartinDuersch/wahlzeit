@@ -20,6 +20,7 @@ public class Animal {
     private Set<AnimalPhoto> photos;
     public AnimalManager manager;
     private Location location;
+
     public Animal(int id, AnimalType at) {
         this.id = id;
         this.animalType = at;
@@ -70,4 +71,20 @@ public class Animal {
     public void setPhotos(Set<AnimalPhoto> photos) {
         this.photos = photos;
     }
+
+    public void writeOn(ResultSet rset) throws SQLException {
+		rset.updateInt("id", id);
+		rset.updateInt("animal_type_id", animalType.getId());
+		rset.updateString("gender", gender.asString());
+		rset.updateInt("location_id", location.getId());
+	}
+
+    public void readFrom(ResultSet rset) throws SQLException {
+		id = rset.getInt("id");
+        gender = gender.getFromString(rset.getString("gender"));
+        //TODO: implement read from different table to set location object
+        //location = rset.getObjectByObjectId("location_id")
+        rset.updateInt("animal_type_id", animalType.getId());
+
+	}
 }

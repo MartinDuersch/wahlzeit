@@ -84,4 +84,12 @@ public class AnimalType {
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
 }

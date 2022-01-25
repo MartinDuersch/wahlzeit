@@ -23,16 +23,17 @@ public class AnimalPhoto extends Photo {
 
     @Override
     public void writeOn(ResultSet rset) throws SQLException {
-        assertClassInvariants();
-        rset.updateObject("animal", animal);
         super.writeOn(rset);
+        animal.writeOn(rset);
+        assertClassInvariants();
     }
 
     @Override
     public void readFrom(ResultSet rset) throws SQLException {
-        animal = rset.getObject("animal", Animal.class);
-        assertClassInvariants();
         super.readFrom(rset);
+        animal.readFrom(rset);
+        assertClassInvariants();
+
     }
 
     /**
